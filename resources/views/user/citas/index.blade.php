@@ -10,8 +10,9 @@
     <main class="container mx-auto px-4 py-8">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h1 class="text-2xl font-bold mb-4">Mis Citas</h1>
-            <a href="{{ route('user.citas.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mb-4 inline-block">Agendar Nueva Cita</a>
-            
+            @role('user')
+            <a href="{{ route('citas.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mb-4 inline-block">Agendar Nueva Cita</a>
+            @endrole
             @if(session('success'))
                 <div id="success-message" class="bg-green-500 text-white p-4 rounded mb-4">
                     {{ session('success') }}

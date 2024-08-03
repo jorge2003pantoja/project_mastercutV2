@@ -14,7 +14,7 @@
                     @elseif(auth()->user()->hasRole('barbero'))
                         @include('barber.index')
                     @elseif(auth()->user()->hasRole('user'))
-                        @include('user.citas.index')
+                        @include('user.citas.index', ['citas' => $citas])
                     @else
                         <p>Access denied.</p>
                     @endif

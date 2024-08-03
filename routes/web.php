@@ -7,7 +7,7 @@ use App\Http\Controllers\CitaController;
 
 use App\Http\Controllers\BarberoController;
 use App\Http\Controllers\ServicioController;
-
+use App\Http\Controllers\DashboardController;
 
 
 Route::get('/', function () {
@@ -79,14 +79,30 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/citas', function () {
             return view('user.citas.index');
         })->name('user.citas.index');
+
+        Route::middleware(['can:create-appointments'])->group(function () {
+            // Ruta para crear una nueva cita
+            Route::get('/citas/create', [CitaController::class, 'create'])->name('citas.create');
+            Route::post('/citas', [CitaController::class, 'store'])->name('citas.store');
+        });
+
+        Route::middleware(['can:view-own-appointments'])->group(function () {
+            Route::get('/citas/index', [CitaController::class, 'index'])->name('citas.index');
+        });
+
+        Route::middleware(['can:cancel-appointments'])->group(function () {
+            Route::delete('/citas/{citas}}', [CitaController::class, 'destroy'])->name('citas.destroy');
+
+            Route::delete('/admin/barberos/{barbero}', [BarberoController::class, 'destroy'])->name('barberos.destroy');
+        });
+
     });
 });
 
-//Ruta al dashboard principal
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 /* // Ruta para cerrar sesión
 Route::post('/logout', function () {
     Auth::logout();
