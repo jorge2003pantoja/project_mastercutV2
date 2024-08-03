@@ -14,14 +14,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Ruta al dashboard principal
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 // Rutas para el perfil del usuario
-Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 // Rutas protegidas por autenticación
 Route::middleware(['auth'])->group(function () {
     // Rutas de administrador con permisos específicos
@@ -29,18 +28,28 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/dashboard', function () {
             return view('admin.dashboard');
         })->name('admin.dashboard');
-        /* Route::view('/admin/services', 'admin.services'); */
 
         // Rutas para el manejo de servicios
         Route::middleware(['can:create-services'])->group(function () {
-            //Ruta funcionando NO MOVER
             Route::get('/admin/servicios/create', [ServicioController::class, 'create'])->name('servicios.create');
             Route::post('/admin/servicios', [ServicioController::class, 'store'])->name('servicios.store');
         });
 
+        Route::middleware(['can:edit-services'])->group(function () {
+            Route::get('/admin/servicios/{servicio}/edit', [ServicioController::class, 'edit'])->name('servicios.edit');
+            Route::patch('/admin/servicios/{servicio}', [ServicioController::class, 'update'])->name('servicios.update');
+        });
+
+        Route::middleware(['can:delete-services'])->group(function () {
+            Route::delete('/admin/servicios/{servicio}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
+        });
+
+        Route::middleware(['can:view-services'])->group(function () {
+            Route::get('/admin/servicios', [ServicioController::class, 'index'])->name('servicios.index');
+        });
+
         // Rutas para el manejo de trabajadores
         Route::middleware(['can:create-workers'])->group(function () {
-            //Ruta funcionando NO MOVER
             Route::get('/admin/barberos/create', [BarberoController::class, 'create'])->name('barberos.create');
             Route::post('/admin/barberos', [BarberoController::class, 'store'])->name('barberos.store');
         });
@@ -51,11 +60,11 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::middleware(['can:delete-workers'])->group(function () {
-            Route::delete('/admin/barberos/{worker}', [BarberoController::class, 'destroy'])->name('barberos.destroy');
+            Route::delete('/admin/barberos/{barbero}', [BarberoController::class, 'destroy'])->name('barberos.destroy');
         });
 
         Route::middleware(['can:view-workers'])->group(function () {
-            Route::get('/admin/barberos/index', [BarberoController::class, 'index'])->name('barberos.index');
+            Route::get('/admin/barberos', [BarberoController::class, 'index'])->name('barberos.index');
         });
     });
 
@@ -73,13 +82,16 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
+//Ruta al dashboard principal
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-
-// Ruta para cerrar sesión
+/* // Ruta para cerrar sesión
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
-})->name('logout');
+})->name('logout'); */
 
 
 /* Route::resource('citas', CitaController::class); */
@@ -92,7 +104,7 @@ Route::get('/citas/available-hours', [CitaController::class, 'availableHours'])-
 
 
 /* Route::post('/citas/horas-disponibles', [CitaController::class, 'availableHours'])->name('citas.availableHours'); */
-/* 
+/*
 
 Route::get('/citas/disponibilidad', [CitaController::class, 'obtenerDisponibilidad'])->name('citas.disponibilidad'); */
 // routes/web.php
@@ -102,28 +114,8 @@ Route::post('/citas/check-availability', [CitaController::class, 'checkAvailabil
 
 Route::get('/', [HomeController::class, 'index']);
 
-//Rutas de perfil del usuario
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
 
 
 require __DIR__.'/auth.php';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
