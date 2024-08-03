@@ -20,7 +20,7 @@
         <h1 class="text-3xl font-semibold mb-6">Editar Servicio</h1>
         <form action="{{ route('servicios.update', $servicio->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            @method('PATCH')
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div class="mb-4">
                     <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>

@@ -20,7 +20,7 @@
         <h1 class="text-3xl font-semibold mb-6">Editar Barbero</h1>
         <form action="{{ route('barberos.update', $barbero->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            @method('PATCH')
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div class="mb-4">
                     <label for="nombre_completo" class="block text-sm font-medium text-gray-700">Nombre Completo</label>

@@ -16,7 +16,7 @@ class BarberoController extends Controller
     public function index()
     {
         $barberos = Barbero::all();
-        return view('admin.barberos.index', compact('barberos'));
+        return view('admin.dashboard', compact('barberos'));
     }
 
     public function create()
@@ -61,7 +61,7 @@ class BarberoController extends Controller
         $role = Role::findByName('barbero', 'web');
         $user->assignRole($role);
 
-        return redirect()->route('barberos.index')->with('success', 'Barbero creado exitosamente.');
+        return redirect()->route('dashboard')->with('success', 'Barbero creado exitosamente.');
     }
 
     public function show(Barbero $barbero)
@@ -104,7 +104,7 @@ class BarberoController extends Controller
 
         $barbero->update($validated);
 
-        return redirect()->route('barberos.index')->with('success', 'Barbero actualizado exitosamente.');
+        return redirect()->route('dashboard')->with('success', 'Barbero actualizado exitosamente.');
     }
 
     public function destroy($id)
@@ -125,6 +125,6 @@ class BarberoController extends Controller
 
         $barbero->delete();
 
-        return redirect()->route('barberos.index')->with('success', 'Barbero eliminado exitosamente.');
+        return redirect()->route('dashboard')->with('success', 'Barbero eliminado exitosamente.');
     }
 }

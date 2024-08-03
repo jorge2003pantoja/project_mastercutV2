@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::middleware(['can:view-workers'])->group(function () {
+            Route::get('/admin/barberos/index', [BarberoController::class, 'index'])->name('barberos.index');
             Route::get('/admin/barberos', [BarberoController::class, 'index'])->name('barberos.index');
         });
     });
@@ -92,8 +93,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::middleware(['can:cancel-appointments'])->group(function () {
             Route::delete('/citas/{citas}}', [CitaController::class, 'destroy'])->name('citas.destroy');
-
-            Route::delete('/admin/barberos/{barbero}', [BarberoController::class, 'destroy'])->name('barberos.destroy');
         });
 
     });
