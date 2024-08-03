@@ -17,10 +17,12 @@
     <main class="container mx-auto px-4 py-8">
         <div class="flex flex-col md:flex-row justify-between items-center mb-4 space-y-4 md:space-y-0">
             <h1 class="text-3xl font-semibold">Lista de Barberos</h1>
+            @role('admin')
             <a href="{{ route('barberos.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded flex items-center space-x-2">
                 <i class="fas fa-user-plus"></i>
                 <span>Crear Barbero</span>
             </a>
+            @endrole
         </div>
         <!-- Mensaje de éxito -->
         @if (session('success'))

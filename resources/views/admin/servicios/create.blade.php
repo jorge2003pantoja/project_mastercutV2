@@ -8,12 +8,6 @@
 </head>
 <body class="bg-gray-100">
     <header class="bg-gray-800 text-white">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="/" class="text-xl font-bold">Barbería</a>
-            <nav class="space-x-4">
-                <a href="{{ route('servicios.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded">Volver a la Lista</a>
-            </nav>
-        </div>
     </header>
 
     <main class="container mx-auto px-4 py-8">

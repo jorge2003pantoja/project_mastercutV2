@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Barbero;
 use App\Models\Cita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 
 class BarberoController extends Controller
@@ -18,7 +21,8 @@ class BarberoController extends Controller
 
     public function create()
     {
-        return view('barberos.create');
+        //Ruta funcionando bien NO MOVER
+        return view('admin.barberos.create');
     }
 
     public function store(Request $request)
@@ -35,23 +39,39 @@ class BarberoController extends Controller
             'foto.max' => 'El tamaño máximo permitido de la imagen es de 2MB.',
         ]);
 
+        // Almacenar la foto si existe
         if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')->store('barberos', 'public');
         }
 
-        Barbero::create($validated);
+        // Hash la contraseña antes de almacenarla
+        $validated['password'] = Hash::make($validated['password']);
+
+        // Crear el barbero
+        $barbero = Barbero::create($validated);
+
+        // Crear el usuario correspondiente en la tabla users
+        $user = User::create([
+            'name' => $barbero->nombre_completo,
+            'email' => $barbero->email,
+            'password' => $barbero->password,
+        ]);
+
+        // Asignar el rol de 'barbero' al nuevo usuario
+        $role = Role::findByName('barbero', 'web');
+        $user->assignRole($role);
 
         return redirect()->route('barberos.index')->with('success', 'Barbero creado exitosamente.');
     }
 
     public function show(Barbero $barbero)
     {
-        return view('barberos.show', compact('barbero'));
+        return view('admin.barberos.show', compact('barbero'));
     }
 
     public function edit(Barbero $barbero)
     {
-        return view('barberos.edit', compact('barbero'));
+        return view('admin.barberos.edit', compact('barbero'));
     }
 
     public function update(Request $request, Barbero $barbero)
@@ -84,7 +104,7 @@ class BarberoController extends Controller
 
         $barbero->update($validated);
 
-        return redirect()->route('barberos.index')->with('success', 'Barbero actualizado exitosamente.');
+        return redirect()->route('admin.barberos.index')->with('success', 'Barbero actualizado exitosamente.');
     }
 
     public function destroy($id)
@@ -97,6 +117,14 @@ class BarberoController extends Controller
         // Ahora eliminar al barbero
         $barbero->delete();
 
-        return redirect()->route('barberos.index')->with('success', 'Barbero eliminado exitosamente.');
+        // Eliminar el usuario correspondiente en la tabla users
+        $user = User::where('email', $barbero->email)->first();
+        if ($user) {
+            $user->delete();
+        }
+
+        $barbero->delete();
+
+        return redirect()->route('admin.barberos.index')->with('success', 'Barbero eliminado exitosamente.');
     }
 }

@@ -5,10 +5,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class Barbero extends Model
 {
-    use HasFactory;
+    use HasFactory, HasRoles;
 
     protected $fillable = [
         'nombre_completo',
@@ -34,4 +35,7 @@ class Barbero extends Model
         return $this->hasMany(Cita::class, 'id_barbero');
     }
     // Si necesitas agregar relaciones u otras funcionalidades, hazlo aquí
+
+    // Configurar el guard para el modelo Worker si es diferente de 'web'
+    protected $guard_name = 'web';
 }

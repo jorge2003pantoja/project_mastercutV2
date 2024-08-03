@@ -17,6 +17,7 @@ class CreateBarberosTable extends Migration
             $table->id();
             $table->string('nombre_completo');
             $table->string('email')->unique();
+            $table->string('password');
             $table->string('telefono')->nullable();
             $table->string('especialidad');
             $table->text('experiencia');

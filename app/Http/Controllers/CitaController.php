@@ -8,6 +8,7 @@ use App\Models\Barbero;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 
 class CitaController extends Controller
 {
@@ -76,6 +77,11 @@ class CitaController extends Controller
         $citas = Cita::where('id_usuario', $user->id)
             ->where('fecha', '>=', Carbon::today())
             ->get();
+
+        $citasDos = Cita::where('id_usuario', $user->id)
+            ->where('fecha', '>=', Carbon::today())
+            ->get();
+
 
         return view('citas.index', compact('citas'));
     }

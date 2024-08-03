@@ -16,7 +16,8 @@ class ServicioController extends Controller
 
     public function create()
     {
-        return view('servicios.create');
+        //Ruta funcionando bien NO MOVER
+        return view('admin.servicios.create');
     }
 
     public function store(Request $request)
@@ -37,17 +38,17 @@ class ServicioController extends Controller
 
         Servicio::create($validated);
 
-        return redirect()->route('servicios.index')->with('success', 'Servicio creado exitosamente.');
+        return redirect()->route('dashboard')->with('success', 'Servicio creado exitosamente.');
     }
 
     public function show(Servicio $servicio)
     {
-        return view('servicios.show', compact('servicio'));
+        return view('admin.servicios.show', compact('servicio'));
     }
 
     public function edit(Servicio $servicio)
     {
-        return view('servicios.edit', compact('servicio'));
+        return view('admin.servicios.edit', compact('servicio'));
     }
 
     public function update(Request $request, Servicio $servicio)
@@ -81,7 +82,7 @@ class ServicioController extends Controller
         }
         $servicio->delete();
 
-        return redirect()->route('servicios.index')->with('success', 'Servicio eliminado exitosamente.');
+        return redirect()->route('admin.servicios.index')->with('success', 'Servicio eliminado exitosamente.');
     }
 }
 

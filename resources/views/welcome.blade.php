@@ -270,20 +270,7 @@
         });
     </script>
 
-    <script>
-        document.getElementById('reserve-appointment').addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Verifica si el usuario está autenticado (esto puede variar dependiendo de cómo manejas la autenticación)
-            @auth
-                // Si el usuario está autenticado, redirige a la página de agendar cita
-                window.location.href = '{{ route('appointments.create') }}';  // Cambia la ruta según sea necesario
-            @else
-                // Si el usuario no está autenticado, redirige a la página de inicio de sesión
-                window.location.href = '{{ route('login') }}';  // Cambia la ruta según sea necesario
-            @endauth
-        });
-    </script>
+    
 
 </body>
 </html>
