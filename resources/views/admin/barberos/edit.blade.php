@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Barbero</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-100">
-    <header class="bg-gray-800 text-white">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="/" class="text-xl font-bold">Barbería</a>
-            <nav class="space-x-4">
-                <a href="{{ route('barberos.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded">Volver a la Lista</a>
-            </nav>
-        </div>
-    </header>
-
+<x-app-layout>
     <main class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-semibold mb-6">Editar Barbero</h1>
         <form action="{{ route('barberos.update', $barbero->id) }}" method="POST" enctype="multipart/form-data">
@@ -82,3 +65,4 @@
     </main>
 </body>
 </html>
+</x-app-layout>

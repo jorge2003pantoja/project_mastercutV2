@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Barberos</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-100">
-    <header class="bg-gray-800 text-white">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="/" class="text-xl font-bold">Barbería</a>
-        </div>
-    </header>
-
+<x-app-layout>
     <main class="container mx-auto px-4 py-8">
         <div class="flex flex-col md:flex-row justify-between items-center mb-4 space-y-4 md:space-y-0">
             <h1 class="text-3xl font-semibold">Lista de Barberos</h1>
             @role('admin')
-            <a href="{{ route('barberos.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded flex items-center space-x-2">
+            <a href="{{ route('barberos.create') }}" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded flex items-center space-x-2">
                 <i class="fas fa-user-plus"></i>
                 <span>Crear Barbero</span>
             </a>
@@ -32,36 +17,34 @@
         @endif
 
         <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-300">
-                <thead class="bg-gray-200">
-                    <tr>
-                        <th class="py-2 px-4 border">ID</th>
-                        <th class="py-2 px-4 border">Nombre Completo</th>
-                        <th class="py-2 px-4 border">Email</th>
-                        <th class="py-2 px-4 border">Teléfono</th>
-                        <th class="py-2 px-4 border">Especialidad</th>
-                        <th class="py-2 px-4 border">Experiencia</th>
-                        <th class="py-2 px-4 border">Foto</th>
-                        <th class="py-2 px-4 border">Acciones</th>
+            <table class="min-w-full bg-black border border-gray-700">
+                <thead class="bg-red-700 border-red-700">
+                    <tr class="border-red-700">
+                        <th class="py-2 px-4 border border-gray-700">Nombre Completo</th>
+                        <th class="py-2 px-4 border border-gray-700">Email</th>
+                        <th class="py-2 px-4 border border-gray-700">Teléfono</th>
+                        <th class="py-2 px-4 border border-gray-700">Especialidad</th>
+                        <th class="py-2 px-4 border border-gray-700">Experiencia</th>
+                        <th class="py-2 px-4 border border-gray-700">Foto</th>
+                        <th class="py-2 px-4 border border-gray-700">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-black text-white">
                     @foreach($barberos as $barbero)
                     <tr>
-                        <td class="py-2 px-4 border">{{ $barbero->id }}</td>
-                        <td class="py-2 px-4 border">{{ $barbero->nombre_completo }}</td>
-                        <td class="py-2 px-4 border">{{ $barbero->email }}</td>
-                        <td class="py-2 px-4 border">{{ $barbero->telefono }}</td>
-                        <td class="py-2 px-4 border">{{ $barbero->especialidad }}</td>
-                        <td class="py-2 px-4 border">{{ $barbero->experiencia }} años</td>
-                        <td class="py-2 px-4 border">
+                        <td class="py-2 px-4 border border-gray-700">{{ $barbero->nombre_completo }}</td>
+                        <td class="py-2 px-4 border border-gray-700">{{ $barbero->email }}</td>
+                        <td class="py-2 px-4 border border-gray-700">{{ $barbero->telefono }}</td>
+                        <td class="py-2 px-4 border border-gray-700">{{ $barbero->especialidad }}</td>
+                        <td class="py-2 px-4 border border-gray-700">{{ $barbero->experiencia }} años</td>
+                        <td class="py-2 px-4 border border-gray-700">
                             @if ($barbero->foto)
                                 <img src="{{ asset('storage/' . $barbero->foto) }}" alt="Foto de {{ $barbero->nombre_completo }}" class="w-16 h-16 object-cover rounded">
                             @else
                                 Sin foto
                             @endif
                         </td>
-                        <td class="py-2 px-4 border flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2">
+                        <td class="py-2 px-4 border border-gray-700 flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2">
                             <a href="{{ route('barberos.edit', $barbero->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-2 rounded">Editar</a>
                             <form action="{{ route('barberos.destroy', $barbero->id) }}" method="POST" class="inline-block">
                                 @csrf
@@ -79,7 +62,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Obtener el elemento del mensaje de éxito
             const successMessage = document.getElementById('success-message');
-            
+
             if (successMessage) {
                 // Ocultar el mensaje después de 4 segundos
                 setTimeout(() => {
@@ -91,5 +74,4 @@
             }
         });
     </script>
-</body>
-</html>
+</x-app-layout>
