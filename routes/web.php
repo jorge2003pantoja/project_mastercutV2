@@ -1,26 +1,21 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CitaController;
 
 use App\Http\Controllers\BarberoController;
 use App\Http\Controllers\ServicioController;
-use App\Http\Controllers\DashboardController;
-
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Rutas para el perfil del usuario
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 // Rutas protegidas por autenticación
 Route::middleware(['auth'])->group(function () {
     // Rutas de administrador con permisos específicos
@@ -101,39 +96,11 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-/* // Ruta para cerrar sesión
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout'); */
-
-
-/* Route::resource('citas', CitaController::class); */
-/* Route::get('citas/horarios', [CitaController::class, 'getAvailableTimes']); */
-
-/* Route::get('/horas-disponibles', [CitaController::class, 'horasDisponibles']);
-
-/*Manejar la solicitud AJAX de horas disponibles
-Route::get('/citas/available-hours', [CitaController::class, 'availableHours'])->name('citas.availableHours'); */
-
-
-/* Route::post('/citas/horas-disponibles', [CitaController::class, 'availableHours'])->name('citas.availableHours'); */
-/*
-
-Route::get('/citas/disponibilidad', [CitaController::class, 'obtenerDisponibilidad'])->name('citas.disponibilidad'); */
-// routes/web.php
-
-Route::post('/citas/check-availability', [CitaController::class, 'checkAvailability'])->name('citas.check_availability');
-Route::post('/citas/check-availability', [CitaController::class, 'checkAvailability'])->name('citas.check_availability');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 Route::get('/', [HomeController::class, 'index']);
-
-
-
-
 require __DIR__.'/auth.php';
-
