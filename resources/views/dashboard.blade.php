@@ -12,7 +12,7 @@
                     @if(auth()->user()->hasRole('admin'))
                         @include('admin.dashboard', ['barberos' => $barberos])
                     @elseif(auth()->user()->hasRole('barbero'))
-                        @include('barber.index')
+                        @include('barber.index', ['citas' => $citas])
                     @elseif(auth()->user()->hasRole('user'))
                         @include('user.citas.index', ['citas' => $citas])
                     @else
