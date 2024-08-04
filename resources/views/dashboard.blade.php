@@ -4,11 +4,11 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p- text-gray-900 dark:text-gray-100 ">
                     @if(auth()->user()->hasRole('admin'))
-                        @include('admin.dashboard', ['barberos' => $barberos])
+                        @include('admin.dashboard')
                     @elseif(auth()->user()->hasRole('barbero'))
                         @include('barber.index')
                     @elseif(auth()->user()->hasRole('user'))
-                        @include('user.citas.index', ['citas' => $citas])
+                        @include('user.citas.index')
                     @else
                         <p>Access denied.</p>
                     @endif
