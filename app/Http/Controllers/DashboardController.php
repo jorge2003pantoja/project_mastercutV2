@@ -25,9 +25,16 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        // Si el usuario es un barbero, obtenemos todos los barberos
+        // Si el usuario es un barbero, obtenemos las citas del barbero
+        // Verificar si el usuario tiene el rol de 'barbero'
         if ($user->hasRole('barbero')) {
-            $barberos = Barbero::all();
+            // Obtener las citas del barbero logueado
+            $citas = Cita::where('id_barbero', $user->id)
+                ->where('fecha', '>=', Carbon::today())
+                ->orderBy('fecha', 'asc')
+                ->orderBy('hora', 'asc')
+                ->get();
+
         }
 
         // Si el usuario es un administrador, obtenemos todos los barberos y servicios
@@ -38,7 +45,4 @@ class DashboardController extends Controller
 
         return view('dashboard', compact('citas', 'barberos', 'servicios'));
     }
-
 }
-
-

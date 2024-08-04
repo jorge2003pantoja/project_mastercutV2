@@ -27,9 +27,9 @@ class BarberoController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'nombre_completo' => 'required|string|max:255',
-            'email' => 'required|email|unique:barberos,email',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'telefono' => 'nullable|string|max:20',
             'especialidad' => 'required|string|max:100',
@@ -39,30 +39,39 @@ class BarberoController extends Controller
             'foto.max' => 'El tamaño máximo permitido de la imagen es de 2MB.',
         ]);
 
-        // Almacenar la foto si existe
-        if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('barberos', 'public');
-        }
-
-        // Hash la contraseña antes de almacenarla
-        $validated['password'] = Hash::make($validated['password']);
-
-        // Crear el barbero
-        $barbero = Barbero::create($validated);
-
         // Crear el usuario correspondiente en la tabla users
         $user = User::create([
-            'name' => $barbero->nombre_completo,
-            'email' => $barbero->email,
-            'password' => $barbero->password,
+            'name' => $request->input('nombre_completo'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->password),
         ]);
 
         // Asignar el rol de 'barbero' al nuevo usuario
         $role = Role::findByName('barbero', 'web');
         $user->assignRole($role);
 
+        // Crear el barbero correspondiente en la tabla barberos
+        $barbero = new Barbero();
+        $barbero->id = $user->id; // Asegurar que la id del barbero sea la misma que la del usuario
+        $barbero->nombre_completo = $request->input('nombre_completo');
+        $barbero->email = $request->input('email'); // Asegurarse de que el email esté asignado
+        $barbero->password = Hash::make($request->password); // Asegurarse de que el password esté asignado
+        $barbero->telefono = $request->input('telefono');
+        $barbero->especialidad = $request->input('especialidad');
+        $barbero->experiencia = $request->input('experiencia');
+
+        // Almacenar la foto si existe
+        if ($request->hasFile('foto')) {
+            $barbero->foto = $request->file('foto')->store('barberos', 'public');
+        }
+
+        $barbero->save();
+
         return redirect()->route('dashboard')->with('success', 'Barbero creado exitosamente.');
     }
+
+
+
 
     public function show(Barbero $barbero)
     {
@@ -107,24 +116,24 @@ class BarberoController extends Controller
         return redirect()->route('dashboard')->with('success', 'Barbero actualizado exitosamente.');
     }
 
-    public function destroy($id)
-    {
-        $barbero = Barbero::findOrFail($id);
+        public function destroy($id)
+        {
+            $barbero = Barbero::findOrFail($id);
 
-        // Eliminar todas las citas asociadas al barbero
-        Cita::where('id_barbero', $id)->delete();
+            // Eliminar todas las citas asociadas al barbero
+            Cita::where('id_barbero', $id)->delete();
 
-        // Ahora eliminar al barbero
-        $barbero->delete();
+            // Ahora eliminar al barbero
+            $barbero->delete();
 
-        // Eliminar el usuario correspondiente en la tabla users
-        $user = User::where('email', $barbero->email)->first();
-        if ($user) {
-            $user->delete();
+            // Eliminar el usuario correspondiente en la tabla users
+            $user = User::where('email', $barbero->email)->first();
+            if ($user) {
+                $user->delete();
+            }
+
+            $barbero->delete();
+
+            return redirect()->route('dashboard')->with('success', 'Barbero eliminado exitosamente.');
         }
-
-        $barbero->delete();
-
-        return redirect()->route('dashboard')->with('success', 'Barbero eliminado exitosamente.');
-    }
 }

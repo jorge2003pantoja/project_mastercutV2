@@ -6,7 +6,7 @@
                     @if(auth()->user()->hasRole('admin'))
                         @include('admin.dashboard')
                     @elseif(auth()->user()->hasRole('barbero'))
-                        @include('barber.index')
+                        @include('barber.index', ['citas' => $citas])
                     @elseif(auth()->user()->hasRole('user'))
                         @include('user.citas.index')
                     @else

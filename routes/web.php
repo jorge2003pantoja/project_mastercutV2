@@ -65,9 +65,12 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Rutas de trabajadores
-    Route::middleware(['role:worker'])->group(function () {
-        Route::view('/worker', 'worker.dashboard');
-        Route::view('/worker/appointments', 'worker.appointments');
+    Route::middleware(['role:barbero'])->group(function () {
+
+        Route::middleware(['can:view-appointments'])->group(function () {
+            Route::get('/barber/index', [CitaController::class, 'getBarberoCitas'])->name('dashboard');
+        });
+        
     });
 
     // Rutas de usuarios

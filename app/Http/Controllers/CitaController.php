@@ -81,6 +81,28 @@ class CitaController extends Controller
         return view('user.citas.index', compact('citas'));
     }
 
+    public function getBarberoCitas()
+    {
+        $user = Auth::user();
+
+        dd($user->id);
+
+        // Verificar si el usuario tiene el rol de 'barbero'
+        if ($user->hasRole('barbero')) {
+            // Obtener las citas del barbero logueado
+            $citas = Cita::where('id_barbero', $user->id)
+                ->where('fecha', '>=', Carbon::today())
+                ->orderBy('fecha', 'asc')
+                ->orderBy('hora', 'asc')
+                ->get();
+        } else {
+            $citas = collect(); // Colección vacía si el usuario no es un barbero
+        }
+
+        // Retornar las citas a la vista correspondiente
+        return view('barbero.index', compact('citas'));
+    }
+
     public function destroy($id)
     {
         $cita = Cita::findOrFail($id);
@@ -100,5 +122,4 @@ class CitaController extends Controller
 
         return response()->json($citas);
     }
-
 }
