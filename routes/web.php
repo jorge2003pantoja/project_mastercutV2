@@ -80,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
             // Ruta para crear una nueva cita
             Route::get('/citas/create', [CitaController::class, 'create'])->name('citas.create');
             Route::post('/citas', [CitaController::class, 'store'])->name('citas.store');
+            Route::post('/citas/check-availability', [CitaController::class, 'checkAvailability'])->name('citas.check_availability');
         });
 
         Route::middleware(['can:view-own-appointments'])->group(function () {

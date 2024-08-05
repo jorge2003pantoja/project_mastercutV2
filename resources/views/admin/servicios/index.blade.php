@@ -1,19 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Servicios</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-100">
-    <header class="bg-gray-800 text-white">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="/" class="text-xl font-bold">Barbería</a>
-        </div>
-    </header>
-
+<x-app-layout>
     <main class="container mx-auto px-4 py-8">
         <div class="flex flex-col md:flex-row justify-between items-center mb-4 space-y-4 md:space-y-0">
             <h1 class="text-3xl font-semibold">Lista de Servicios</h1>
@@ -76,7 +61,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Obtener el elemento del mensaje de éxito
             const successMessage = document.getElementById('success-message');
-            
+
             if (successMessage) {
                 // Ocultar el mensaje después de 4 segundos
                 setTimeout(() => {
@@ -88,5 +73,4 @@
             }
         });
     </script>
-</body>
-</html>
+</x-app-layout>

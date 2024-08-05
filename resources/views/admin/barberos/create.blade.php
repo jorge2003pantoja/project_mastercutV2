@@ -50,7 +50,7 @@
                 @endif
             </div>
             <div class="mb-4">
-                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">Guardar</button>
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">Guardar</button>
             </div>
         </form>
     </main>

@@ -16,7 +16,7 @@ class BarberoController extends Controller
     public function index()
     {
         $barberos = Barbero::all();
-        return view('admin.dashboard', compact('barberos'));
+        return view('admin.barberos.index', compact('barberos'));
     }
 
     public function create()

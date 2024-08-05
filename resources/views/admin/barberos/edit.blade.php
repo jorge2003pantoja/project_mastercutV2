@@ -1,5 +1,5 @@
 <x-app-layout>
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8 ">
         <h1 class="text-3xl font-semibold mb-6">Editar Barbero</h1>
         <form action="{{ route('barberos.update', $barbero->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -59,10 +59,8 @@
                 </div>
             </div>
             <div class="mb-4">
-                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">Guardar</button>
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">Guardar</button>
             </div>
         </form>
     </main>
-</body>
-</html>
 </x-app-layout>

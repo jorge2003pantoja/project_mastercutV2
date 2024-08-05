@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Citas</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-100">
+<x-app-layout>
     <main class="container mx-auto px-4 py-8">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h1 class="text-2xl font-bold mb-4">Mis Citas</h1>
@@ -74,7 +66,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Obtener el elemento del mensaje de éxito
             const successMessage = document.getElementById('success-message');
-            
+
             if (successMessage) {
                 // Ocultar el mensaje después de 4 segundos
                 setTimeout(() => {
@@ -86,5 +78,4 @@
             }
         });
     </script>
-</body>
-</html>
+</x-app-layout>
