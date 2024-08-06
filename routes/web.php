@@ -7,14 +7,13 @@ use App\Http\Controllers\CitaController;
 
 use App\Http\Controllers\BarberoController;
 use App\Http\Controllers\ServicioController;
+use App\Models\Barbero;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [CitaController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // Rutas protegidas por autenticación
 Route::middleware(['auth'])->group(function () {
@@ -99,6 +98,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+/* Route::get('/test', function () {
+    //este trae todos los barberos con sus citas
+    $barberos = Barbero::with('citas')->get();
+
+    //este trae todas las citas del barbero
+    $citas = Barbero::find(1);
+    $citas->citas;
+
+    return $citas;
+}); */
 
 Route::get('/', [HomeController::class, 'index']);
 require __DIR__.'/auth.php';

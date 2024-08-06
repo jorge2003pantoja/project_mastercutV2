@@ -8,7 +8,7 @@
                     @elseif(auth()->user()->hasRole('barbero'))
                         @include('barber.index')
                     @elseif(auth()->user()->hasRole('user'))
-                        @include('user.dashboard')
+                        @include('user.citas.index')
                     @else
                         <p>Access denied.</p>
                     @endif

@@ -1,4 +1,4 @@
-<x-app-layout>
+
     <main class="container mx-auto px-4 py-8">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h1 class="text-2xl font-bold mb-4">Mis Citas</h1>
@@ -10,6 +10,7 @@
                     {{ session('success') }}
                 </div>
             @endif
+
 
             @if($citas->isEmpty())
                 <p class="text-gray-600">No tienes citas agendadas.</p>
@@ -78,4 +79,3 @@
             }
         });
     </script>
-</x-app-layout>

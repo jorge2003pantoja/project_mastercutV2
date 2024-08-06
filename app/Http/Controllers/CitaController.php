@@ -78,7 +78,7 @@ class CitaController extends Controller
             ->where('fecha', '>=', Carbon::today())
             ->get();
 
-        return view('user.citas.index', compact('citas'));
+        return view('dashboard', compact('citas'));
     }
 
     public function destroy($id)
@@ -87,8 +87,8 @@ class CitaController extends Controller
         $cita->delete();
 
         return redirect()->route('dashboard')->with('success', 'Cita cancelada exitosamente.');
-    } 
-    
+    }
+
     public function checkAvailability(Request $request)
     {
         $barberoId = $request->input('barbero_id');
